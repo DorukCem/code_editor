@@ -1,11 +1,25 @@
-/**
- * This file is just a silly example to show everything working in the browser.
- * When you're ready to start on your site, clear the file. Happy hacking!
- **/
+const WIDTH = 1200;
+const HEIGHT = 800;
+const LINE_HEIGHT = 50;
 
-import confetti from 'canvas-confetti';
+const canvas = <HTMLCanvasElement> document.getElementById('canvas');
+const context: CanvasRenderingContext2D | null = canvas.getContext('2d');
+if (context == null){
+    throw new Error("Context is null")
+} 
 
-confetti.create(document.getElementById('canvas') as HTMLCanvasElement, {
-  resize: true,
-  useWorker: true,
-})({ particleCount: 200, spread: 200 });
+let lines = [];
+
+//  CONGFGURE EDITOR FONT
+context.font = "bold 16px Monospace";
+context.textAlign = "right"; // To keep the line numbers aligned
+
+// DRAW EDITOR BACKGROUND
+for (var y = LINE_HEIGHT; y < HEIGHT; y += LINE_HEIGHT) {
+  context.moveTo(0, y);
+  context.lineTo(WIDTH, y);
+  context.fillText((y / LINE_HEIGHT).toString(), 25, y - 24);
+}
+
+context.strokeStyle = "black";
+context.stroke();
